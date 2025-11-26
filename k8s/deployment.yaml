@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-app-deployment
+  namespace: test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: add-app
+  template:
+    metadata:
+      labels:
+        app: add-app
+    spec:
+      containers:
+      - name: add-app-deployment
+        image: docker.io/yourdockerhubusername/add-python:latest
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /add?a=0&b=0
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
